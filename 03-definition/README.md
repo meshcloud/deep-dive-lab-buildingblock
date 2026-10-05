@@ -52,5 +52,5 @@ implementation = { terraform = {
 ```
 
 Edit `buildingblock/`, forget to push, re-run, watch it fail identically, lose twenty minutes. Push,
-then re-run. On to [chapter 04](../04-identity/) — the definition exists, but nothing can act as a
-service account on it yet.
+then re-run. On to [chapter 04](../04-identity/) — a one-minute check that the agent has the right
+identity to run it.

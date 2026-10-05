@@ -16,7 +16,7 @@ rest in order.
 | [01 — Orientation](01-orientation/) | read the hub's own instruction files — the agent's real interface | none | read-only |
 | [02 — Scaffold](02-scaffold/) | paste one prompt; the agent builds a STACKIT VM building block from a base module | none | ~3 min |
 | [03 — Definition](03-definition/) | turn the module into a building block definition on meshStack, from source | meshStack | ~1 min |
-| [04 — Identity](04-identity/) | federate your foundation's service account to the new definition | meshStack · STACKIT | ~2 min |
+| [04 — Identity](04-identity/) | hand the agent the service account you set up in chapter 00 | none | ~1 min |
 | [05 — Order & verify](05-order-and-verify/) | order a VM, read the run logs, SSH into it | meshStack | ~3 min |
 | [06 — Ship](06-ship/) | run the scorecard and open the PR | GitHub | ~2 min |
 
