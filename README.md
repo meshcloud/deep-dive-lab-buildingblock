@@ -43,15 +43,20 @@ foundation, supplying the identity, reading a failed run, and deciding when it's
 
 ## Prerequisites
 
-You run the whole lab against **your own** meshStack — nothing here depends on a shared demo.
+You run the whole lab against **your own** meshStack — nothing here depends on a shared demo. What
+you need depends on how far you go:
 
-- **A meshStack workspace** you can deploy platform integrations and building block definitions in.
-- **A STACKIT organization** the foundation can create projects and service accounts under.
-- **OpenTofu ≥ 1.12** (`brew install opentofu`), the **meshStack CLI**, and **`jq`**. `nix develop`
-  provides OpenTofu, jq, gh and Python if you use Nix.
+- **Accounts (chapters 00, 03–05):** a **meshStack workspace** and a **STACKIT organization**.
+  Chapter 00 is one-click *Add to meshStack* from the hub, so it needs no local tooling at all.
+- **Local toolchain (chapters 02–05):** **OpenTofu ≥ 1.12** (`brew install opentofu`) and **`jq`**.
+- **The meshStack CLI (chapters 03–05):** this is how the agent orders building blocks and, above
+  all, reads a failed run's step-by-step logs — the debugging loop the lab is about. It isn't in
+  brew/nixpkgs; install it per the hub docs. (The Terraform provider can create the definition and
+  order the block on its own, authenticating from an API key *or* the CLI profile — but you'll still
+  want the CLI the first time a run goes red.)
 
-Chapter 00 turns those into a working STACKIT foundation (a project + a federated `editor` service
-account). Chapters 01–02 need nothing at all — you can follow them on a plane.
+`nix develop` provides OpenTofu, jq, gh and Python; the meshStack CLI you add separately. Chapters
+01–02 need no accounts at all — you can follow them on a plane.
 
 ```bash
 cp bin/env.sh.example bin/env.sh   # point it at your meshStack, then:
