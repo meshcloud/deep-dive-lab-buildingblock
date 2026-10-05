@@ -34,10 +34,10 @@ immediately request STACKIT projects from, plus the **STACKIT Service Account** 
 
 ## Get the two things the later chapters need
 
-1. **A STACKIT project (tenant).** Order the [**STACKIT Project**](https://hub.meshcloud.io/platforms/stackit/definitions/stackit-project)
-   building block (in the workspace, against the new platform). When it succeeds, note its **tenant
-   uuid** and STACKIT **project id** — `meshstack buildingblock list -o json` shows them in the
-   block's `targetRef` and outputs.
+1. **A STACKIT project (tenant).** Order the [**STACKIT Project (Starterkit)**](https://hub.meshcloud.io/platforms/stackit/definitions/stackit-stackit-project-starterkit)
+   building block — the self-service project entry the landing zone composes. When it succeeds, note
+   its **tenant uuid** and STACKIT **project id** — `meshstack buildingblock list -o json` shows them
+   in the block's `targetRef` and outputs.
 2. **A service account with `editor` on that project.** Order the [**STACKIT Service Account**](https://hub.meshcloud.io/platforms/stackit/definitions/stackit-service-account)
    building block with role `editor`; note its **email** from the output.
 
