@@ -40,7 +40,14 @@ immediately request STACKIT projects from, plus the **STACKIT Service Account** 
 2. **A service account with `editor` on that project.** Order the **STACKIT Service Account**
    building block with role `editor`; note its **email** from the output.
 
-Record both in the lab's var-file:
+Both the **STACKIT Service Account** and the **Service Account Federation** (the WIF piece you'll
+use in [chapter 04](../04-identity/)) are published building blocks on the [hub](https://hub.meshcloud.io) —
+if your foundation doesn't already offer one, open it on the hub and **Add to meshStack** with one
+click, the same as the landing zone. Their sources are
+[`modules/stackit/service-account`](https://github.com/meshcloud/meshstack-hub/tree/main/modules/stackit/service-account)
+and [`modules/stackit/service-account-federation`](https://github.com/meshcloud/meshstack-hub/tree/main/modules/stackit/service-account-federation).
+
+Record both ids in the lab's var-file:
 
 ```bash
 cp ../deep-dive-lab-buildingblock/demo.tfvars.example demo.tfvars   # adjust path to this repo
