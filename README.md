@@ -7,18 +7,17 @@ we build one real thing step by step, with space to try it out and ask questions
 foundation from the hub, then extend it with your own building block and drive it live against
 meshStack, the way the engineering behind [meshStack hub](https://hub.meshcloud.io) does.
 
-Each directory is one chapter. Do [00](00-foundation/) once to get a foundation, then follow the
-rest in order.
+Two chapters you do yourself (set up the foundation, then paste one prompt); after that **the agent
+does the work** and you watch, guide, and review.
 
-| Chapter | What you do | Credentials | Runtime |
+| Chapter | Who drives | What happens | Credentials |
 |---|---|---|---|
-| [00 — Foundation](00-foundation/) | add the `stackit-landingzone` reference architecture to your meshStack (one click from the [hub](https://hub.meshcloud.io/reference-architectures/stackit-landingzone), or local `tofu apply`) | meshStack admin · STACKIT org | ~15 min, once |
-| [01 — Orientation](01-orientation/) | read the hub's own instruction files — the agent's real interface | none | read-only |
-| [02 — Scaffold](02-scaffold/) | paste one prompt; the agent builds a STACKIT VM building block from a base module | none | ~3 min |
-| [03 — Definition](03-definition/) | turn the module into a building block definition on meshStack, from source | meshStack | ~1 min |
-| [04 — Identity](04-identity/) | hand the agent the service account you set up in chapter 00 | none | ~1 min |
-| [05 — Order & verify](05-order-and-verify/) | order a VM, read the run logs, SSH into it | meshStack | ~3 min |
-| [06 — Ship](06-ship/) | run the scorecard and open the PR | GitHub | ~2 min |
+| [00 — Foundation](00-foundation/) | you, once | add the `stackit-landingzone` reference architecture to your meshStack (one click from the [hub](https://hub.meshcloud.io/reference-architectures/stackit-landingzone), or local `tofu apply`) | meshStack admin · STACKIT org |
+| [01 — Orientation](01-orientation/) | you read | the hub's own instruction files — the agent's real interface | none |
+| [02 — Scaffold](02-scaffold/) | you prompt | one prompt; the agent builds a STACKIT VM building block from a base module | none |
+| [03 — Definition](03-definition/) | agent | registers the module as a building block definition from pushed source | meshStack |
+| [04 — Order & verify](04-order-and-verify/) | agent | orders a VM, reads the run logs, SSHs in — you watch the fix-forward loop | meshStack |
+| [05 — Ship](05-ship/) | agent → you | runs the scorecard and opens the PR; you review | GitHub |
 
 ## The one idea, up front
 

@@ -1,56 +1,30 @@
-# Chapter 03 — From module to building block definition
+# Chapter 03 — The agent registers the definition
 
-**Time: ~5 min. Credentials: meshStack.**
+**What you do: watch. The agent does the work.**
 
-A module isn't a building block yet. The
+Having scaffolded the module, the agent turns it into a **building block definition (BBD)** on your
+meshStack — it applies the
 [`meshstack_integration.tf`](https://github.com/meshcloud/meshstack-hub/blob/main/modules/stackit/server/meshstack_integration.tf)
-the agent wrote *declares* a building block definition (BBD): its inputs, outputs, catalog entry, and
-— crucially — **coordinates to the code**, not the code itself. This chapter applies it against your
-meshStack so the definition exists in your workspace.
+it wrote, authenticating from your CLI profile. You don't run anything here; you watch for one thing.
 
-## Push first
+## The one thing to watch
 
-The runner clones `buildingblock/` from GitHub at `var.hub.git_ref`. Your working tree does not
-exist as far as it's concerned, so **commit and push the branch** before creating the definition —
-an unpushed change runs nothing. This is the same discipline the
-[integration conventions](https://github.com/meshcloud/meshstack-hub/blob/main/.agents/references/meshstack-integration.md)
-describe for pinning `ref_name` to a ref.
-
-## Create the definition
-
-`meshstack_integration.tf` is a root module. Point a tiny wrapper at it and apply — the provider
-authenticates from your CLI profile, so there is no provider block to write:
-
-```hcl
-# scratch/main.tf
-provider "meshstack" { profile = "<your-profile>" }
-module "under_test" {
-  source    = "../meshstack-hub/modules/stackit/server"
-  meshstack = { owning_workspace_identifier = "<your-workspace>", tags = {} }
-  hub       = { git_ref = "<your-branch>", bbd_draft = true }
-}
-output "bbd" { value = module.under_test.building_block_definition }
-```
-
-```bash
-tofu -chdir=scratch init && tofu -chdir=scratch apply
-```
-
-The output's `uuid` and `version_ref.uuid` identify the definition and the version you'll order
-against. (`bin/order-bb.sh` does exactly this, plus chapters 04–05, in one go.)
-
-## The thing that catches everyone once
-
-The definition contains **coordinates**, not your code:
+The definition does **not** contain the code. It contains **coordinates to the code**:
 
 ```hcl
 implementation = { terraform = {
   repository_url  = "https://github.com/meshcloud/meshstack-hub.git"
   repository_path = "modules/stackit/server/buildingblock"
-  ref_name        = var.hub.git_ref      # ← the branch you pushed
+  ref_name        = var.hub.git_ref      # ← a branch that must be pushed
 }}
 ```
 
-Edit `buildingblock/`, forget to push, re-run, watch it fail identically, lose twenty minutes. Push,
-then re-run. On to [chapter 04](../04-identity/) — a one-minute check that the agent has the right
-identity to run it.
+So the agent has to **push the branch** before the definition is worth anything — the runner clones
+`buildingblock/` from GitHub at that ref, not from the working tree. A good agent pushes first; if it
+forgets, the next chapter's run fails identically every time until it does. This is the same
+push-first discipline the
+[integration conventions](https://github.com/meshcloud/meshstack-hub/blob/main/.agents/references/meshstack-integration.md)
+describe — and the single most common way a first run stalls.
+
+When the agent is done you'll see a BBD uuid and a version uuid; those identify what the next chapter
+orders. On to [chapter 04](../04-order-and-verify/).

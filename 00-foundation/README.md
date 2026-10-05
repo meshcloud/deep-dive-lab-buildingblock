@@ -43,9 +43,9 @@ immediately request STACKIT projects from, plus the **STACKIT Service Account** 
 
 The [**STACKIT Service Account**](https://hub.meshcloud.io/platforms/stackit/definitions/stackit-service-account)
 and the [**Service Account Federation**](https://hub.meshcloud.io/platforms/stackit/definitions/stackit-service-account-federation)
-(the WIF piece you'll use in [chapter 04](../04-identity/)) are published building blocks on the
-hub — if your foundation doesn't already offer one, open it and **Add to meshStack** with one click,
-the same as the landing zone. Their sources are
+(the WIF piece that lets your building block definitions run as the account) are published building
+blocks on the hub — if your foundation doesn't already offer one, open it and **Add to meshStack**
+with one click, the same as the landing zone. Their sources are
 [`modules/stackit/service-account`](https://github.com/meshcloud/meshstack-hub/tree/main/modules/stackit/service-account)
 and [`modules/stackit/service-account-federation`](https://github.com/meshcloud/meshstack-hub/tree/main/modules/stackit/service-account-federation).
 
@@ -58,8 +58,6 @@ cp ../deep-dive-lab-buildingblock/demo.tfvars.example demo.tfvars   # adjust pat
 
 ## What this buys you
 
-You now have, in your own meshStack, exactly the prerequisites the dry run depended on: a STACKIT
-project to deploy into and an `editor` service account to act as. The one thing still missing is a
-link between that service account and the building block you haven't built yet — that's
-[chapter 04](../04-identity/), and it's deliberately a separate step because of *when* it has to
-happen. On to [chapter 01](../01-orientation/).
+You now have, in your own meshStack, everything the build needs: a STACKIT project to deploy into
+and an `editor` service account, federated so your building block definitions can run as it. From
+here on you prompt once and the agent does the rest. On to [chapter 01](../01-orientation/).
