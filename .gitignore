@@ -1,0 +1,16 @@
+# credentials and per-run values
+bin/env.sh
+demo.tfvars
+*.auto.tfvars
+*.auto.tfvars.json
+
+# generated SSH key from a verify step
+vm_key
+*.pem
+
+# OpenTofu / Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log

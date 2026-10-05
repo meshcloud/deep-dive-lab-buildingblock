@@ -1,0 +1,17 @@
+# Copy to demo.tfvars (gitignored) and fill in from the prereqs you set up (see 04-identity/).
+# These are the only values the demo needs beyond credentials.
+
+# meshStack workspace that owns the definition and orders the building block.
+workspace = "<your-workspace>"
+
+# The STACKIT sandbox tenant the VM is created on (meshTenant uuid), and a service account with the
+# `editor` role on that project. See 04-identity/.
+tenant_uuid = "00000000-0000-0000-0000-000000000000"
+sa_email    = "your-sa-xxxxxxxx@sa.stackit.cloud"
+
+# The hub branch the runner should fetch buildingblock/ from. Must be pushed.
+branch = "feature/stackit-server-vm"
+
+# Marketplace version uuid of the "STACKIT Service Account Federation" building block definition.
+# A non-owning workspace can't read it over the API, so copy it from the marketplace in the UI.
+federation_version = "00000000-0000-0000-0000-000000000000"
