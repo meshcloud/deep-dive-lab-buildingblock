@@ -10,19 +10,27 @@ machinery a real cloud-foundation team would run; here it's one `tofu apply`.
 
 ## Deploy it
 
-In a checkout of [meshstack-hub](https://github.com/meshcloud/meshstack-hub):
+**The easy way — add it straight to meshStack.** Open the ref-arch on the hub and click
+**Add to meshStack**:
+
+→ https://hub.meshcloud.io/reference-architectures/stackit-landingzone
+
+meshStack walks you through the inputs (your workspace, the STACKIT organization and credentials)
+and deploys it for you — no local checkout, no `tofu` on your machine.
+
+**The local way — if you'd rather run the Terraform yourself**, in a checkout of
+[meshstack-hub](https://github.com/meshcloud/meshstack-hub):
 
 ```bash
 cd reference-architectures/stackit-landingzone
 cp terraform.tfvars.example terraform.tfvars   # fill in: meshStack workspace, STACKIT org id, creds
-tofu init
-tofu apply
+tofu init && tofu apply
 ```
 
-The ref-arch's own [`README.md`](https://github.com/meshcloud/meshstack-hub/tree/main/reference-architectures/stackit-landingzone)
-is the authority on its inputs — read it, don't guess. The always-on result is a sandbox landing
-zone application teams can immediately request STACKIT projects from, plus the **STACKIT Service
-Account** building block (service account + project roles + workload identity federation).
+Either way, the ref-arch's own [`README.md`](https://github.com/meshcloud/meshstack-hub/tree/main/reference-architectures/stackit-landingzone)
+is the authority on its inputs. The always-on result is a sandbox landing zone application teams can
+immediately request STACKIT projects from, plus the **STACKIT Service Account** building block
+(service account + project roles + workload identity federation).
 
 ## Get the two things the later chapters need
 

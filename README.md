@@ -12,7 +12,7 @@ rest in order.
 
 | Chapter | What you do | Credentials | Runtime |
 |---|---|---|---|
-| [00 — Foundation](00-foundation/) | deploy the `stackit-landingzone` reference architecture into your meshStack | meshStack admin · STACKIT org | ~15 min, once |
+| [00 — Foundation](00-foundation/) | add the `stackit-landingzone` reference architecture to your meshStack (one click from the [hub](https://hub.meshcloud.io/reference-architectures/stackit-landingzone), or local `tofu apply`) | meshStack admin · STACKIT org | ~15 min, once |
 | [01 — Orientation](01-orientation/) | read the hub's own instruction files — the agent's real interface | none | read-only |
 | [02 — Scaffold](02-scaffold/) | paste one prompt; the agent builds a STACKIT VM building block from a base module | none | ~3 min |
 | [03 — Definition](03-definition/) | turn the module into a building block definition on meshStack, from source | meshStack | ~1 min |
