@@ -59,8 +59,10 @@ These are the things that cost us time the first time. Treat them as rules.
 
 - Chapters teach in their `README.md`; keep code comments for the non-obvious constraint, not the
   narration.
-- No `provider "meshstack"` block anywhere — the provider authenticates from the CLI profile
-  (`profile = "deepdive"`) or the `MESHSTACK_*` environment variables.
+- No `provider "meshstack"` block anywhere, and no API key or secret in any file. Authentication is
+  passwordless: `meshstack login` ([meshstack-cli](https://github.com/meshcloud/meshstack-cli)) does
+  a browser/OIDC login once, and both the CLI and the Terraform provider ride that profile. Never
+  introduce a stored credential.
 - `bin/env.sh` holds credentials only and is gitignored; per-run ids go in `demo.tfvars` (gitignored,
   `demo.tfvars.example` committed).
 - `solution/` is a snapshot of the finished module for comparison — it is not sourced or run from here.

@@ -49,14 +49,17 @@ you need depends on how far you go:
 - **Accounts (chapters 00, 03–05):** a **meshStack workspace** and a **STACKIT organization**.
   Chapter 00 is one-click *Add to meshStack* from the hub, so it needs no local tooling at all.
 - **Local toolchain (chapters 02–05):** **OpenTofu ≥ 1.12** (`brew install opentofu`) and **`jq`**.
-- **The meshStack CLI (chapters 03–05):** this is how the agent orders building blocks and, above
-  all, reads a failed run's step-by-step logs — the debugging loop the lab is about. It isn't in
-  brew/nixpkgs; install it per the hub docs. (The Terraform provider can create the definition and
-  order the block on its own, authenticating from an API key *or* the CLI profile — but you'll still
-  want the CLI the first time a run goes red.)
+- **The [meshStack CLI](https://github.com/meshcloud/meshstack-cli) (chapters 03–05):** how the
+  agent orders building blocks and reads a failed run's step-by-step logs — and how you authenticate.
 
-`nix develop` provides OpenTofu, jq, gh and Python; the meshStack CLI you add separately. Chapters
-01–02 need no accounts at all — you can follow them on a plane.
+> **No passwords, no API keys.** `meshstack login` does a **browser / OIDC** login once; the CLI
+> *and* the Terraform provider then ride that session. Nothing in this lab stores a secret — there
+> is no key in a file and no `provider` block with credentials. That passwordless, profile-based
+> auth is a big part of what makes an agent safe to hand the keys to here. (An API key exists only
+> for unattended CI; you won't use one.)
+
+`nix develop` provides OpenTofu, jq, gh and Python; the [meshStack CLI](https://github.com/meshcloud/meshstack-cli)
+you add separately. Chapters 01–02 need no accounts at all — you can follow them on a plane.
 
 ```bash
 cp bin/env.sh.example bin/env.sh   # point it at your meshStack, then:
