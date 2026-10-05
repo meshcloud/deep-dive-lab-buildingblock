@@ -35,9 +35,9 @@ reason it's its own chapter.
 
 ## Do it
 
-Order the **STACKIT Service Account Federation** building block against your tenant — it's a
-published building block on the [hub](https://hub.meshcloud.io), so if your foundation doesn't
-already offer it, **Add to meshStack** with one click first. Order it with:
+Order the [**STACKIT Service Account Federation**](https://hub.meshcloud.io/platforms/stackit/definitions/stackit-service-account-federation)
+building block against your tenant — it's a published building block on the hub, so if your
+foundation doesn't already offer it, **Add to meshStack** with one click first. Order it with:
 
 - `service_account_email` = your `editor` SA from chapter 00, and
 - `federated_building_block_definitions` = `["<the new BBD uuid>"]` — a real HCL list, not a bare

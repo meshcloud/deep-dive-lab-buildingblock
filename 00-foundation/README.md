@@ -34,16 +34,18 @@ immediately request STACKIT projects from, plus the **STACKIT Service Account** 
 
 ## Get the two things the later chapters need
 
-1. **A STACKIT project (tenant).** Order the **STACKIT Project** building block (in the workspace,
-   against the new platform). When it succeeds, note its **tenant uuid** and STACKIT **project id** —
-   `meshstack buildingblock list -o json` shows them in the block's `targetRef` and outputs.
-2. **A service account with `editor` on that project.** Order the **STACKIT Service Account**
+1. **A STACKIT project (tenant).** Order the [**STACKIT Project**](https://hub.meshcloud.io/platforms/stackit/definitions/stackit-project)
+   building block (in the workspace, against the new platform). When it succeeds, note its **tenant
+   uuid** and STACKIT **project id** — `meshstack buildingblock list -o json` shows them in the
+   block's `targetRef` and outputs.
+2. **A service account with `editor` on that project.** Order the [**STACKIT Service Account**](https://hub.meshcloud.io/platforms/stackit/definitions/stackit-service-account)
    building block with role `editor`; note its **email** from the output.
 
-Both the **STACKIT Service Account** and the **Service Account Federation** (the WIF piece you'll
-use in [chapter 04](../04-identity/)) are published building blocks on the [hub](https://hub.meshcloud.io) —
-if your foundation doesn't already offer one, open it on the hub and **Add to meshStack** with one
-click, the same as the landing zone. Their sources are
+The [**STACKIT Service Account**](https://hub.meshcloud.io/platforms/stackit/definitions/stackit-service-account)
+and the [**Service Account Federation**](https://hub.meshcloud.io/platforms/stackit/definitions/stackit-service-account-federation)
+(the WIF piece you'll use in [chapter 04](../04-identity/)) are published building blocks on the
+hub — if your foundation doesn't already offer one, open it and **Add to meshStack** with one click,
+the same as the landing zone. Their sources are
 [`modules/stackit/service-account`](https://github.com/meshcloud/meshstack-hub/tree/main/modules/stackit/service-account)
 and [`modules/stackit/service-account-federation`](https://github.com/meshcloud/meshstack-hub/tree/main/modules/stackit/service-account-federation).
 
