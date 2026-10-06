@@ -54,6 +54,11 @@ These are the things that cost us time the first time. Treat them as rules.
 - **Flavor `g1a.1d` exists in `eu01`.** Older `g1.1`-style names may not; don't default to a guess.
 - **Tear-down needs delete rights.** Deleting a building block runs a delete-run that destroys the
   cloud resources; if the login or API key lacks delete permission, do it in the meshPanel UI.
+- **The meshStack provider HTML-escapes `CODE` inputs.** A `CODE` value containing `>`, `<` or `&`
+  makes the Terraform provider report *"Provider produced inconsistent result after apply"* (it
+  unicode-escapes them at plan but returns them literal after apply). The building block is fine; it bites only
+  the provider round-trip, so it shows up in an `e2e/` smoke test, not in a CLI-ordered run. Keep
+  e2e cloud-init clear of those characters — `write_files`, not a shell redirect.
 
 ## Conventions for this repo's own content
 

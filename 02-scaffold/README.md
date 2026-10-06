@@ -17,9 +17,21 @@ Paste this into a fresh Claude Code session, run from a checkout of
 > I want an optional personal cloud-init file as an optional CODE
 > input, and an SSH key generated so I can log into the VM after it's created.
 >
-> I'm logged into my meshStack, and a STACKIT project and a service account with the `editor` role exist
-> on it already exist Create an extra branch, create the building block, add it as a definition,
-> order a VM on that project, and test it. When it works, open a PR.
+> I'm already logged into my meshStack with the meshStack CLI, so use it directly — no API key, and
+> no `provider "meshstack"` block anywhere. `meshstack api` both creates the building block
+> definition and places the order (there is no CLI create verb); `meshstack buildingblock` and
+> `meshstack buildingblockrun logs` read the runs.
+>
+> A STACKIT project and a service account with the `editor` role on it already exist — don't ask me
+> for the ids, find them with the CLI: `meshstack buildingblock list` shows the project's STACKIT
+> tenant and its existing **STACKIT Service Account** and **STACKIT Service Account Federation**
+> building blocks, and the service account email is in their inputs. That **STACKIT Service Account
+> Federation** building block federates the service account to building block definitions — so
+> register your definition, add its uuid to its `federated_building_block_definitions` input,
+> re-run it, and the VM run then authenticates as the service account via WIF.
+>
+> Create an extra branch, build the building block, add it as a definition, order a VM on that
+> project, and test it — SSH in to prove it. When it works, open a PR.
 
 ## What good looks like
 
