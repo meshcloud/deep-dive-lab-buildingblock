@@ -22,11 +22,13 @@ Paste this into a fresh Claude Code session, run from a checkout of
 > definition and places the order (there is no CLI create verb); `meshstack buildingblock` and
 > `meshstack buildingblockrun logs` read the runs.
 >
-> A STACKIT project and a service account with the `editor` role on it already exist — ask me for the
-> tenant uuid and the service account email. Don't add a backplane or go looking for a STACKIT key:
-> authentication already works through Workload Identity Federation. A **STACKIT Service Account
-> Federation** building block on that project federates the service account to building block
-> definitions — so register your definition, add its uuid to that building block's
+> A STACKIT project and a service account with the `editor` role on it already exist — don't ask me
+> for the ids, find them with the CLI: `meshstack buildingblock list` shows the project's STACKIT
+> tenant and its existing **STACKIT Service Account** and **STACKIT Service Account Federation**
+> building blocks, and the service account email is in their inputs. Don't add a backplane or go
+> looking for a STACKIT key: authentication already works through Workload Identity Federation. That
+> **STACKIT Service Account Federation** building block federates the service account to building
+> block definitions — so register your definition, add its uuid to its
 > `federated_building_block_definitions` input, re-run it, and the VM run then authenticates as the
 > service account via WIF.
 >
