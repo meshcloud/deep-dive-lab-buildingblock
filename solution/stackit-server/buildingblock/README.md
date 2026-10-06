@@ -1,32 +1,21 @@
 ---
-name: STACKIT Virtual Machine
+name: STACKIT Server
 supportedPlatforms:
   - stackit
-description: Deploys a STACKIT VM with an optional public IP, a generated or supplied SSH key, and an optional personal cloud-init.
-# No cloud-side setup: the VM is created with the WIF service account passed in as a static input,
-# the same identity model as the STACKIT Git Runner building block.
-requiresBackplane: false
+description: Provisions a STACKIT virtual machine with a generated SSH key and optional personal cloud-init.
 ---
 
-## What it provisions
+## What it is
 
-A single STACKIT VM (`stackit_server`) on its own network, security group and network interface. The
-VM boots a STACKIT image resolved by name regex, so it tracks the republished image id rather than
-pinning a UUID.
+A generic **STACKIT virtual machine** building block. It creates a server on its own routed network,
+puts a floating public IP on it, and opens inbound SSH so the ordering team can log straight in. An
+ED25519 key pair is generated per VM — STACKIT injects the public key, and the private key is
+returned as a sensitive output. An optional personal cloud-init (`#cloud-config`) is applied verbatim
+on first boot.
 
-Two things make it usable the moment it comes up:
-
-- **SSH access.** The module authorizes an SSH key on the VM via a `stackit_key_pair`. Supply your
-  own public key, or leave it empty and the module generates an ed25519 key pair and returns the
-  private key as an output. When a public IP is attached, inbound SSH (port 22) is opened to a CIDR
-  you choose, so you can log in right after creation. Without a public IP the VM stays private and
-  reachable only from inside its network.
-- **Personal cloud-init.** An optional cloud-init document is passed straight to the VM as user data
-  on first boot. The SSH key is wired through the key pair, not cloud-init, so a personal cloud-init
-  carries only your own setup.
-
-The VM is created with a STACKIT service account passed in as a static input (WIF), the same
-identity model as the STACKIT Git Runner — this building block provisions nothing cloud-side itself.
+It started life as the networking/VM core of `stackit/git-runner`, generalised once the Git runner
+turned out to be natively supported on STACKIT: everything runner-specific was stripped, SSH access
+and the generated key pair were added, and the runner's baked-in cloud-init became a free-form input.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -60,15 +49,14 @@ No modules.
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_availability_zone"></a> [availability\_zone](#input\_availability\_zone) | STACKIT availability zone for the VM and its boot volume. | `string` | n/a | yes |
-| <a name="input_cloud_init"></a> [cloud\_init](#input\_cloud\_init) | Optional cloud-init user data run on first boot. Empty boots the image unmodified. The SSH key is injected via the key pair, not this file, so a personal cloud-init needs no key handling. | `string` | `""` | no |
+| <a name="input_cloud_init"></a> [cloud\_init](#input\_cloud\_init) | Optional personal cloud-init (#cloud-config) applied to the VM on first boot. Empty means none. SSH access does not depend on it. | `string` | n/a | yes |
 | <a name="input_disk_size_gb"></a> [disk\_size\_gb](#input\_disk\_size\_gb) | Size of the VM boot volume in GB. | `number` | n/a | yes |
-| <a name="input_enable_public_ip"></a> [enable\_public\_ip](#input\_enable\_public\_ip) | Attaches a public IP and opens inbound SSH, so the VM is reachable directly after creation. Disable to keep it private (reachable only from inside the network). | `bool` | n/a | yes |
-| <a name="input_image_name_regex"></a> [image\_name\_regex](#input\_image\_name\_regex) | Anchored regex matching the STACKIT image name the VM boots from, so it skips the ARM64 variant. | `string` | n/a | yes |
-| <a name="input_machine_type"></a> [machine\_type](#input\_machine\_type) | STACKIT machine flavor for the VM, e.g. g1a.1d or c1a.2d. | `string` | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | Name of the VM, also used to name its network resources and SSH key pair. | `string` | n/a | yes |
+| <a name="input_image_name_regex"></a> [image\_name\_regex](#input\_image\_name\_regex) | Anchored regex matching the STACKIT image the VM boots from, so it skips the ARM64 variant. | `string` | n/a | yes |
+| <a name="input_machine_type"></a> [machine\_type](#input\_machine\_type) | STACKIT machine flavor for the VM. | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | Name of the VM, used for the server and its network resources. | `string` | n/a | yes |
 | <a name="input_network_id"></a> [network\_id](#input\_network\_id) | Existing STACKIT network to attach the VM to. Empty creates a dedicated one. | `string` | n/a | yes |
-| <a name="input_ssh_allowed_cidr"></a> [ssh\_allowed\_cidr](#input\_ssh\_allowed\_cidr) | CIDR allowed to reach SSH (port 22) when a public IP is attached. Has no effect without a public IP. | `string` | n/a | yes |
-| <a name="input_ssh_public_key"></a> [ssh\_public\_key](#input\_ssh\_public\_key) | OpenSSH public key authorized on the VM. Empty generates an ed25519 key pair and returns the private key as an output. | `string` | `""` | no |
+| <a name="input_ssh_allowed_cidr"></a> [ssh\_allowed\_cidr](#input\_ssh\_allowed\_cidr) | CIDR range allowed to reach the VM on TCP 22. Authentication is key-only; narrow this to a trusted range in production. | `string` | n/a | yes |
+| <a name="input_ssh_username"></a> [ssh\_username](#input\_ssh\_username) | Default login user of the chosen image (e.g. `ubuntu`), surfaced only to render the SSH login hint output. | `string` | n/a | yes |
 | <a name="input_stackit_project_id"></a> [stackit\_project\_id](#input\_stackit\_project\_id) | STACKIT project ID the VM is created in. | `string` | n/a | yes |
 | <a name="input_stackit_region"></a> [stackit\_region](#input\_stackit\_region) | STACKIT region for the VM and its network resources. | `string` | n/a | yes |
 
@@ -76,9 +64,10 @@ No modules.
 
 | Name | Description |
 | ---- | ----------- |
-| <a name="output_public_ip"></a> [public\_ip](#output\_public\_ip) | Public IP of the VM, for SSH. Empty when no public IP is attached. |
+| <a name="output_public_ip"></a> [public\_ip](#output\_public\_ip) | Public IP of the VM. SSH in as ssh\_username with the generated private key. |
 | <a name="output_server_id"></a> [server\_id](#output\_server\_id) | ID of the STACKIT server. |
-| <a name="output_ssh_key_pair_name"></a> [ssh\_key\_pair\_name](#output\_ssh\_key\_pair\_name) | Name of the STACKIT key pair authorized on the VM. |
-| <a name="output_ssh_private_key"></a> [ssh\_private\_key](#output\_ssh\_private\_key) | Generated OpenSSH private key to log in as the default user. Null when a public key was supplied. |
-| <a name="output_ssh_username"></a> [ssh\_username](#output\_ssh\_username) | Default login user of the booted image. STACKIT Ubuntu images use `ubuntu`. |
+| <a name="output_ssh_command"></a> [ssh\_command](#output\_ssh\_command) | Ready-to-use SSH command once the generated private key is on disk. |
+| <a name="output_ssh_private_key"></a> [ssh\_private\_key](#output\_ssh\_private\_key) | Generated SSH private key (OpenSSH format) to log into the VM as ssh\_username. |
+| <a name="output_ssh_username"></a> [ssh\_username](#output\_ssh\_username) | Default login user of the VM image, e.g. `ubuntu` on the Ubuntu image. |
+| <a name="output_summary"></a> [summary](#output\_summary) | Human-readable summary shown in meshPanel after the run. |
 <!-- END_TF_DOCS -->

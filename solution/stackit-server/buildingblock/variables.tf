@@ -24,7 +24,7 @@ variable "network_id" {
 variable "name" {
   type        = string
   nullable    = false
-  description = "Name of the VM, also used to name its network resources and SSH key pair."
+  description = "Name of the VM, used for the server and its network resources."
 
   validation {
     condition     = can(regex("^[a-zA-Z0-9._-]+$", var.name))
@@ -35,13 +35,13 @@ variable "name" {
 variable "machine_type" {
   type        = string
   nullable    = false
-  description = "STACKIT machine flavor for the VM, e.g. g1a.1d or c1a.2d."
+  description = "STACKIT machine flavor for the VM."
 }
 
 variable "image_name_regex" {
   type        = string
   nullable    = false
-  description = "Anchored regex matching the STACKIT image name the VM boots from, so it skips the ARM64 variant."
+  description = "Anchored regex matching the STACKIT image the VM boots from, so it skips the ARM64 variant."
 }
 
 variable "disk_size_gb" {
@@ -50,28 +50,20 @@ variable "disk_size_gb" {
   description = "Size of the VM boot volume in GB."
 }
 
-variable "cloud_init" {
-  type        = string
-  nullable    = false
-  default     = ""
-  description = "Optional cloud-init user data run on first boot. Empty boots the image unmodified. The SSH key is injected via the key pair, not this file, so a personal cloud-init needs no key handling."
-}
-
-variable "ssh_public_key" {
-  type        = string
-  nullable    = false
-  default     = ""
-  description = "OpenSSH public key authorized on the VM. Empty generates an ed25519 key pair and returns the private key as an output."
-}
-
-variable "enable_public_ip" {
-  type        = bool
-  nullable    = false
-  description = "Attaches a public IP and opens inbound SSH, so the VM is reachable directly after creation. Disable to keep it private (reachable only from inside the network)."
-}
-
 variable "ssh_allowed_cidr" {
   type        = string
   nullable    = false
-  description = "CIDR allowed to reach SSH (port 22) when a public IP is attached. Has no effect without a public IP."
+  description = "CIDR range allowed to reach the VM on TCP 22. Authentication is key-only; narrow this to a trusted range in production."
+}
+
+variable "ssh_username" {
+  type        = string
+  nullable    = false
+  description = "Default login user of the chosen image (e.g. `ubuntu`), surfaced only to render the SSH login hint output."
+}
+
+variable "cloud_init" {
+  type        = string
+  nullable    = false
+  description = "Optional personal cloud-init (#cloud-config) applied to the VM on first boot. Empty means none. SSH access does not depend on it."
 }
