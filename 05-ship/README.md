@@ -16,23 +16,6 @@ is — and this is where you stop watching and start reviewing.
   SUCCEEDED, SSH worked, smoke test green) — the hub's CI is lint-only, so a real run is the only
   proof it works.
 
-## What to watch for
-
-- **Closing the Testing gap.** Most STACKIT building blocks that take a service account as input
-  ([`git-runner`](https://github.com/meshcloud/meshstack-hub/tree/main/modules/stackit/git-runner),
-  [`ske/cluster`](https://github.com/meshcloud/meshstack-hub/tree/main/modules/ske/cluster),
-  `git`, `container-registry`, `ai-llm`) ship **no** hub e2e, because a hub-mode test has to stand up
-  the run's identity itself — the same per-definition WIF federation you did by hand in chapter 04.
-  Do that inside the test (as
-  [`service-account`](https://github.com/meshcloud/meshstack-hub/tree/main/modules/stackit/service-account)'s
-  self-federating backplane does for free) and the gap closes: this module ships an `e2e/` and proves
-  it green in CI. Nothing is faked — the test provisions a real VM and tears it down. Where an agent
-  genuinely *can't* stand up that identity, leaving the category red and saying why in the PR is still
-  the honest move.
-- **Your review is the gate.** Compare the result against
-  [`solution/stackit-server/`](../solution/stackit-server/). The agent typed it; deciding it's right
-  is still yours.
-
 ## The smoke test
 
 ### What it actually is
