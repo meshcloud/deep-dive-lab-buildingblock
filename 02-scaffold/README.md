@@ -17,9 +17,8 @@ Paste this into a fresh Claude Code session, run from a checkout of
 > reuse the one already there). I want an optional personal cloud-init file as an optional CODE
 > input, and an SSH key generated so I can log into the VM after it's created.
 >
-> I'm logged into my meshStack, and a STACKIT project and a service account with the `editor` role
-> on it already exist (from the landing zone in chapter 00) — ask me for the tenant uuid and the
-> service account email. Create an extra branch, create the building block, add it as a definition,
+> I'm logged into my meshStack, and a STACKIT project and a service account with the `editor` role exist
+> on it already exist Create an extra branch, create the building block, add it as a definition,
 > order a VM on that project, and test it. When it works, open a PR.
 
 ## What good looks like
