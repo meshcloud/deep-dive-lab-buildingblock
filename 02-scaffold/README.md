@@ -13,8 +13,8 @@ Paste this into a fresh Claude Code session, run from a checkout of
 
 > We built [`modules/stackit/git-runner`](https://github.com/meshcloud/meshstack-hub/tree/main/modules/stackit/git-runner)
 > before we knew the runner works natively in STACKIT, but it's a good base for a generic VM
-> building block. Use it to build a STACKIT VM building block under `modules/stackit/server` (or
-> reuse the one already there). I want an optional personal cloud-init file as an optional CODE
+> building block. Use it to build a STACKIT VM building block under `modules/stackit/server`.
+> I want an optional personal cloud-init file as an optional CODE
 > input, and an SSH key generated so I can log into the VM after it's created.
 >
 > I'm already logged into my meshStack with the meshStack CLI, so use it directly — no API key, and
@@ -25,9 +25,9 @@ Paste this into a fresh Claude Code session, run from a checkout of
 > A STACKIT project and a service account with the `editor` role on it already exist — don't ask me
 > for the ids, find them with the CLI: `meshstack buildingblock list` shows the project's STACKIT
 > tenant and its existing **STACKIT Service Account** and **STACKIT Service Account Federation**
-> building blocks, and the service account email is in their inputs. That *STACKIT Service Account Federation**
-> building block federates the service account to building block definitions —
-> so register your definition, add its uuid to its `federated_building_block_definitions` input,
+> building blocks, and the service account email is in their inputs. That **STACKIT Service Account
+> Federation** building block federates the service account to building block definitions — so
+> register your definition, add its uuid to its `federated_building_block_definitions` input,
 > re-run it, and the VM run then authenticates as the service account via WIF.
 >
 > Create an extra branch, build the building block, add it as a definition, order a VM on that
