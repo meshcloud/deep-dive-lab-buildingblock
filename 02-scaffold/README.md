@@ -17,17 +17,21 @@ Paste this into a fresh Claude Code session, run from a checkout of
 > reuse the one already there). I want an optional personal cloud-init file as an optional CODE
 > input, and an SSH key generated so I can log into the VM after it's created.
 >
-> I'm logged into my meshStack through the CLI, and a STACKIT project and a service account with the
-> `editor` role on it already exist (from the landing zone in chapter 00) — ask me for the tenant
-> uuid and the service account email. Drive the meshStack side with the **meshStack CLI**: it rides
-> my browser login, so you need no API key, and `meshstack api` both creates the definition and
-> places the order (there is no CLI create verb). Don't add a backplane or go looking for a STACKIT
-> key — authentication already works through Workload Identity Federation: the **STACKIT Service
-> Account Federation** building block on the project federates that service account to building block
-> definitions. So just register your definition, add its uuid to that building block's
-> `federated_building_block_definitions`, re-run it, and the VM run authenticates as the service
-> account via WIF. Create an extra branch, create the building block, add it as a definition, order a
-> VM on that project, and test it. When it works, open a PR.
+> I'm already logged into my meshStack with the meshStack CLI, so use it directly — no API key, and
+> no `provider "meshstack"` block anywhere. `meshstack api` both creates the building block
+> definition and places the order (there is no CLI create verb); `meshstack buildingblock` and
+> `meshstack buildingblockrun logs` read the runs.
+>
+> A STACKIT project and a service account with the `editor` role on it already exist — ask me for the
+> tenant uuid and the service account email. Don't add a backplane or go looking for a STACKIT key:
+> authentication already works through Workload Identity Federation. A **STACKIT Service Account
+> Federation** building block on that project federates the service account to building block
+> definitions — so register your definition, add its uuid to that building block's
+> `federated_building_block_definitions` input, re-run it, and the VM run then authenticates as the
+> service account via WIF.
+>
+> Create an extra branch, build the building block, add it as a definition, order a VM on that
+> project, and test it — SSH in to prove it. When it works, open a PR.
 
 ## What good looks like
 
