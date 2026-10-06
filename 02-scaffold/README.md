@@ -25,12 +25,10 @@ Paste this into a fresh Claude Code session, run from a checkout of
 > A STACKIT project and a service account with the `editor` role on it already exist — don't ask me
 > for the ids, find them with the CLI: `meshstack buildingblock list` shows the project's STACKIT
 > tenant and its existing **STACKIT Service Account** and **STACKIT Service Account Federation**
-> building blocks, and the service account email is in their inputs. Don't add a backplane or go
-> looking for a STACKIT key: authentication already works through Workload Identity Federation. That
-> **STACKIT Service Account Federation** building block federates the service account to building
-> block definitions — so register your definition, add its uuid to its
-> `federated_building_block_definitions` input, re-run it, and the VM run then authenticates as the
-> service account via WIF.
+> building blocks, and the service account email is in their inputs. That *STACKIT Service Account Federation**
+> building block federates the service account to building block definitions —
+> so register your definition, add its uuid to its `federated_building_block_definitions` input,
+> re-run it, and the VM run then authenticates as the service account via WIF.
 >
 > Create an extra branch, build the building block, add it as a definition, order a VM on that
 > project, and test it — SSH in to prove it. When it works, open a PR.
